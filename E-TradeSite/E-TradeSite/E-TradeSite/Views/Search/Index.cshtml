@@ -1,0 +1,258 @@
+﻿@using E_Trade.Model.Models.Data
+@model IEnumerable<Product>
+@{
+    ViewBag.Title = "Index";
+}
+@Styles.Render("~/CSS/ProductList.css")
+
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="offset-1 col-lg-2">
+            <div class="card-body">
+                <h4 class="title">Seçili Filtreler</h4>
+                <button class="btn btn-outline-danger">Resetle</button>
+            </div>
+            @{
+                var q = DateTime.Now.ToShortDateString();
+                List<ProductProperty> productProperties = new List<ProductProperty>();
+
+                var c = from a in productProperties
+                        group a by a.VarKey into x
+                        select new
+                        {
+                            x.Key
+                        };
+                c = c.ToList();
+
+                var z = Model.Select(x => x.ProductProperties).ToList();
+                foreach (var item in Model)
+                {
+
+                    productProperties.AddRange(item.ProductProperties.ToList());
+
+                    var k = from a in productProperties
+                            group a by a.VarKey into x
+                            select new
+                            {
+                                x.Key
+                            };
+                    c = k.ToList();
+                }
+                foreach (var item1 in c)
+                {
+                    var l = from a in productProperties
+                            where a.VarKey == item1.Key
+                            group a by a.VarValue into x
+                            select new
+                            {
+                                x.Key
+                            };
+                    l = l.ToList();
+                    string n = item1.Key;
+                    <div class="card-group">
+                        <div class="card">
+                            <div class="card-header" id="brandTitle">
+                                <h4 class="card-title">
+                                    <a data-toggle="collapse" href="#@n.Replace(" ","")">@n</a>
+                                </h4>
+                            </div>
+                            <div id="@n.Replace(" ","")" class="collapse card-product-list show">
+                                <ul class="list-group">
+                                    @for (int i = 0; i < l.Count(); i++)
+                                    {
+                                        string m = l.ToList()[i].Key;
+                                        <li class="list-group-item"><a href="@Url.Action("Index","Search",new { property = Request.QueryString["property"] , DahiliHafıza = $"{m.Replace(" ","")}" })"><input class="float-right" type="checkbox" name="Columfilter1" value="checked" /><span class="float-left">@m</span></a></li>
+                                    }
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                }
+            }
+        </div>
+        <div class="col-lg-8">
+            <div class="row">
+                <div class="col-lg-4">
+                    <nav class="navbar navbar-expand-sm">
+                        <div class="navbar-nav" id="dropdownbtn">
+                            <div class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
+                                    Fiyat Listele
+                                </a>
+                                <div class="dropdown-menu">
+                                    <a class="dropdown-item" href="@Url.RouteUrl("CategoryListPriceSort",new { toLowPrice = "true" })">En Yüksek Fiyat<span class="bi bi-arrow-down"></span></a>
+                                    <a class="dropdown-item" href="@Url.RouteUrl("CategoryListPriceSort",new { toLowPrice = "false" })">En Yüksek Fiyat<span class="bi bi-arrow-down"></span></a>
+
+
+                                </div>
+                            </div>
+                        </div>
+                    </nav>
+
+                </div>
+                <div class="col-lg-4">
+                    <nav class="navbar navbar-expand-sm">
+                        <div class="navbar-nav" id="dropdownbtn">
+                            <div class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
+                                    Değerlendirme Puanı
+                                </a>
+                                <div class="dropdown-menu">
+                                    <a class="dropdown-item" href="@Url.RouteUrl("CategoryListRateSort",new { toLowRate = "true" })">En Yüksek Puan<span class="bi bi-arrow-down"></span></a>
+                                    <a class="dropdown-item" href="@Url.RouteUrl("CategoryListRateSort",new { toLowRate = "false" })">En Yüksek Puan<span class="bi bi-arrow-down"></span></a>
+                                </div>
+                            </div>
+                        </div>
+                    </nav>
+
+                </div>
+                <div class="col-lg-4">
+                    <nav class="navbar navbar-expand-sm">
+                        <div class="navbar-nav" id="dropdownbtn">
+                            <div class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
+                                    Yorum Sayısı
+                                </a>
+                                <div class="dropdown-menu">
+                                    <a class="dropdown-item" href="#">En yüksek yorum sayısı<span class="bi bi-arrow-down"></span></a>
+                                    <a class="dropdown-item" href="#">En az yorum sayısı<span class="bi bi-arrow-up"></span></a>
+                                </div>
+                            </div>
+                        </div>
+                    </nav>
+
+                </div>
+            </div>
+            <div class="row">
+                <div class="container">
+                    <div class="row">
+                        @foreach (Product item in Model)
+                        {
+                            <div class="col-md-4">
+                                <figure class="card card-product-grid card-lg">
+                                    <div id="@Url.Content($"demo{item.Id}")" class="carousel slide" data-ride="carousel">
+
+                                        <!-- Indicators -->
+                                        <ul class="carousel-indicators" id="data-slide">
+                                            @for (int k = 0; k < item.ProductImages.Where(x => x.ProductId == item.Id).ToList().Count(); k++)
+                                            {
+                                                if (k != 0)
+                                                {
+                                                    <li data-target="@Url.Content($"#demo{item.Id}")" data-slide-to="@k"></li>
+                                                }
+                                                else
+                                                {
+                                                    <li data-target="@Url.Content($"#demo{item.Id}")" data-slide-to="@k" class="active"></li>
+                                                }
+                                            }
+                                        </ul>
+                                        <!-- The slideshow -->
+                                        <div class="carousel-inner" id="productList">
+
+                                            @for (int k = 0; k < item.ProductImages.Where(x => x.ProductId == item.Id).ToList().Count(); k++)
+                                            {
+                                                if (k != 0)
+                                                {
+                                                    <div class="carousel-item" data-abc="true">
+                                                        <a href="@Url.Action("Index","ProductDetail",new { name = item.ProuductName , id = item.Id })">
+                                                            <img src='@Url.Content($"~/Images/Product/{item.ProductImages.Select(x=> x.Image).ToList()[k]}")' alt="@Url.Content($"~/Images/Product/{item.ProductImages.Select(x=> x.Image).ToList()[k]}")" />
+                                                        </a>
+                                                    </div>
+                                                }
+                                                else
+                                                {
+                                                    <div class="carousel-item active " data-abc="true">
+                                                        <a href="@Url.Action("Index","ProductDetail",new { name = item.ProuductName , id = item.Id })">
+                                                            <img src='@Url.Content($"~/Images/Product/{item.ProductImages.Select(x=> x.Image).ToList()[k]}")' alt="@Url.Content($"~/Images/Product/{item.ProductImages.Select(x=> x.Image).ToList()[k]}")" />
+                                                        </a>
+                                                    </div>
+                                                }
+
+                                            }
+                                        </div>
+                                    </div>
+                                    <figcaption class="info-wrap">
+                                        <div class="row">
+                                            <div class="col-md-7" id="productTitle"> <a href="@Url.Action("Index","ProductDetail",new { id = item.Id })" class="title" data-abc="true">@item.ProuductName.Substring(0, 20) ...</a> </div>
+                                            <div class="col-md-5">
+                                                <div class="rating text-right" id="productRate">
+                                                    @for (int i = 0; i < 5; i++)
+                                                    {
+                                                        if (item.Rates > i + 0.5)
+                                                        {
+                                                            <i class="bi bi-star-fill"></i>
+                                                        }
+                                                        else if (item.Rates == i + 0.5)
+                                                        {
+                                                            <i class="bi bi-star-half"></i>
+                                                        }
+                                                        else
+                                                        {
+                                                            <i class="bi bi-star"></i>
+                                                        }
+                                                    }
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </figcaption>
+                                    <div class="bottom-wrap">
+                                        <div class="row">
+                                            <div class="col-4 float-left">
+                                                @if (item.TrullyPrice == null)
+                                                {
+                                                    <p class="font-italic" style="font-size:16px;margin-top:20px;text-decoration:none;font-weight:bolder;color:green;" id="fakePrice">@item.TotalPrice TL</p>
+                                                }
+                                                else
+                                                {
+                                                    <p class="font-italic" id="fakePrice">@item.TotalPrice TL</p>
+                                                    <p class="font-italic" id="truePrice">@item.TrullyPrice TL</p>
+                                                }
+                                            </div>
+                                            <div class="col-8 float-right">
+                                                <div class="row">
+                                                    <div class="col-lg-6" id="throwCart">
+                                                        <a href="#" class="btn float-right" data-abc="true"> Satın Al </a>
+
+                                                    </div>
+                                                    <div class="col-lg-6" id="buyQuick">
+                                                        <a href="#" class="btn float-right" data-abc="true"> Sepete </a>
+                                                    </div>
+
+                                                </div>
+                                                <p>
+                                                    <small id="shippingDetail">
+                                                        @if (item.IsShippingFree == true)
+                                                        {
+                                                            @Url.Content("Kargo Bedava")
+                                                        }
+                                                        else
+                                                        {
+                                                            @Url.Content("Kargo Ücretli")
+                                                        }
+                                                    </small>
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </figure>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+            <ul class="pagination justify-content-center">
+                <li class="page-item"><a class="page-link" href="javascript:void(0);">Previous</a></li>
+                <li class="page-item active"><a class="page-link" href="javascript:void(0);">1</a></li>
+                <li class="page-item"><a class="page-link" href="javascript:void(0);">2</a></li>
+                <li class="page-item"><a class="page-link" href="javascript:void(0);">3</a></li>
+                <li class="page-item"><a class="page-link" href="javascript:void(0);">4</a></li>
+                <li class="page-item"><a class="page-link" href="javascript:void(0);">...</a></li>
+                <li class="page-item"><a class="page-link" href="javascript:void(0);">...</a></li>
+                <li class="page-item"><a class="page-link" href="javascript:void(0);">12</a></li>
+                <li class="page-item"><a class="page-link" href="javascript:void(0);">Next</a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+

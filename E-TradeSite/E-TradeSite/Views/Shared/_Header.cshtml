@@ -1,0 +1,49 @@
+﻿
+@{
+    ViewBag.Title = "_Header";
+}
+
+<nav class="navbar navbar-expand-lg navbar-dark" id="mainNavbar">
+    @Html.ActionLink("TEKNO HAVUZ", "Index", "Home", new { id = "" }, new { @class = "offset-md-2 navbar-brand col-lg-2", id = "titleMain" });
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        @using (Html.BeginForm("Index", "Search", FormMethod.Get, new Dictionary<string, object>()
+{
+               { "class" ,"form-inline my-2 my-lg-3"},
+               { "id" , "mainSearch" }
+           }))
+        {
+            <input class="form-control mr-sm-1" id="Search" name="ara" type="text" placeholder="Search" >
+            <button class="btn btn-dark my-2 my-sm-0" type="submit"><span class="bi-search"></span></button>
+        }
+        <ul class="offset-md-2 navbar-nav mr-auto" id="mainListUnlogin">
+            <li class="nav nav-item" id="animeNavbarLink">
+                <a href="@Url.Action("Index","ShoppingCart")" class="nav-link"><span class="bi-cart-dash">Sepet</span></a>
+            </li>
+            <li class="nav nav-item" id="animeNavbarLink">
+                <a class="nav-link" href="#"> <span class="bi-person-fill">Giriş Yap</span></a>
+            </li>
+            <li class="nav nav-item" id="animeNavbarLink">
+                <a class="nav-link" href="#"> <span class="bi-person-plus-fill">Kayıt Ol</span></a>
+            </li>
+        </ul>
+    </div>
+
+</nav>
+
+<div class="row" id="row">
+    <div class="col-lg-3" id="row1">
+
+    </div>
+    <div class="col-lg-3" id="row2">
+
+    </div>
+    <div class="col-lg-3" id="row3">
+
+    </div>
+    <div class="col-lg-3" id="row4">
+
+    </div>
+</div>

@@ -1,0 +1,214 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+}
+
+@Styles.Render("~/CSS/ShoppingCart.css")
+
+<div class="container-fluid ml-lg-5 mt-lg-5 mb-lg-5">
+    <div class="row ml-lg-5 mr-lg-5">
+        <div class="col-lg-8 mr-5 hat-cek">
+            <div class="row alt-hat">
+                <h3 class="ml-lg-5 mb-lg-4 mt-3">Sepetim<span class="bi bi-arrow-down-short ml-2"></span> <small class="ml-3">3 Ürün</small></h3>
+            </div>
+            <div class="row mt-3">
+                <div class="col-lg-2 mr-2 ml-2">
+                    <a href="../HTML/ProductDetail.html">
+                        <img class="img-fluid" src="~/Images/Acer-Nitro-5/Acer-Nitro-5-c1.jpg" alt="Acer Nitro 5 Intel Core i7 10750H 32GB 1TB SSD GTX1660Ti Freedos 15.6 FHD Taşınabilir Bilgisayar NH.Q7PEY.003">
+                    </a>
+                </div>
+                <div class="col-lg-7 mr-lg-3">
+                    <h6><a href="~/HTML/ProductDetail.html" class="none-underline link-primary"><b>Acer Nitro 5 Intel Core i7 10750H 32GB 1TB SSD GTX1660Ti Freedos 15.6 FHD Taşınabilir Bilgisayar NH.Q7PEY.003</b></a></h6>
+                    <div class="row   mt-3 ">
+                        <div class="col-lg-3">
+                            <p class="text-center"><a href="#" class="none-underline link-default">ACER</a></p>
+                        </div>
+                        <div class="col-lg-5">
+                            <p class="text-capitalize" style="color:green;">En geç 24 haziranda kargoda</p>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-5 ml-5 ">
+                            <h4 class="price">12.199.00 TL</h4>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-2">
+                    <div class="row ">
+                        <div class="col-lg-4 ml-4 mt-5">
+                            <a href="#"><span class="bi bi-heart"><small class="wish-cart"></small></span></a>
+                            <a href="#"><span class="bi bi-trash"></span></a>
+                        </div>
+                        <div class="col-lg-2 mt-3 ml-lg-3">
+                            <button class="positive mb-lg-2" onclick="increase()" style="color:forestgreen">+</button>
+                            <input type="number" value="1" id="sayi" class="quantity " max="3" min="1" />
+                            <button class="positive mb-lg-2 mt-2" onclick="decrease()" style="color:red">-</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row mt-3">
+                <div class="col-lg-2 mr-2 ml-2">
+                    <a href="#">
+                        <img class="img-fluid" src="../Images/Acer-Predator-Triton-500/Acer-Predator-Triton-500-c1.jpg" alt="Lenovo IdeaPad Gaming 3 AMD Ryzen 5 4600H">
+                    </a>
+                </div>
+                <div class="col-lg-7 mr-lg-3">
+                    <h6><a href="../HTML/ProductDetail.html" class="none-underline link-primary"><b>Lenovo IdeaPad Gaming 3 AMD Ryzen 5 4600H</b></a></h6>
+                    <div class="row   mt-3 ">
+                        <div class="col-lg-3">
+                            <p class="text-center"><a href="#" class="none-underline link-default">Lenovo</a></p>
+                        </div>
+                        <div class="col-lg-5">
+                            <p class="text-capitalize" style="color:green;">Yarın kargoda</p>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-5 ml-5 ">
+                            <h4 class="price">7.599.00 TL</h4>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-2">
+                    <div class="row ">
+                        <div class="col-lg-4 ml-4 mt-5">
+                            <a href="#"><span class="bi bi-heart"><small class="wish-cart"></small></span></a>
+                            <a href="#"><span class="bi bi-trash"></span></a>
+                        </div>
+                        <div class="col-lg-2 mt-3 ml-lg-3">
+                            <button class="positive mb-lg-2" onclick="increase1()" style="color:forestgreen">+</button>
+                            <input type="number" value="1" id="sayi1" class="quantity " max="3" min="1" />
+                            <button class="positive mb-lg-2 mt-2" onclick="decrease1()" style="color:red">-</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row mt-3">
+                <div class="col-lg-2 mr-2 ml-2">
+                    <a href="#">
+                        <img class="img-fluid" src="../Images/Lenovo-Ipad-Gaming-3/Lenovo-Ipad-Gaming-3-c1.jpg" alt="Acer Predator Triton 500 Intel Core i7 10750H">
+                    </a>
+                </div>
+                <div class="col-lg-7 mr-lg-3">
+                    <h6><a href="../HTML/ProductDetail.html" class="none-underline link-primary"><b>Acer Predator Triton 500 Intel Core i7 10750H</b></a></h6>
+                    <div class="row   mt-3 ">
+                        <div class="col-lg-3">
+                            <p class="text-center"><a href="#" class="none-underline link-default">ACER</a></p>
+                        </div>
+                        <div class="col-lg-5">
+                            <p class="text-capitalize" style="color:green;">bugün kargoda</p>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-5 ml-5 ">
+                            <h4 class="price">17.999.00 TL</h4>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-2">
+                    <div class="row ">
+                        <div class="col-lg-4 ml-4 mt-5">
+                            <a href="#"><span class="bi bi-heart"><small class="wish-cart"></small></span></a>
+                            <a href="#"><span class="bi bi-trash"></span></a>
+                        </div>
+                        <div class="col-lg-2 mt-3 ml-lg-3">
+                            <button class="positive mb-lg-2" onclick="increase2()" style="color:forestgreen">+</button>
+                            <input type="number" value="1" id="sayi2" class="quantity " max="3" min="1" />
+                            <button class="positive mb-lg-2 mt-2" onclick="decrease2()" style="color:red">-</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-3 ">
+            <div class="hat-cek">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <h4 class="mt-4 ml-3" style="color:#808080">Ödenecek Tutar</h4>
+                        <h4 class="text-center price mt-4">36.999.00 TL</h4>
+                    </div>
+                </div>
+                <div class="row  mt-3 total-price">
+                    <h6 class="float-left ml-lg-3 reserve-place-3">Toplam Tutar :</h6>
+                    <h6 class="float-left reserve-place-4">40.000.00 TL</h6>
+                </div>
+                <div class="row  mt-3 discount-price">
+                    <h6 class="float-left ml-lg-3 reserve-place-3">İndirim :</h6>
+                    <h6 class="float-left reserve-place-4">2.995.00 TL</h6>
+                </div>
+                <div class="row  mt-3 shipping-price">
+                    <h6 class="float-left ml-lg-3 reserve-place-3">Kargo :</h6>
+                    <h6 class="float-left reserve-place-4">0.00 TL</h6>
+                </div>
+                <div class="text-center mt-lg-3 alt-hat">
+                    <button type="button" class="btn btn-cart">Alışverişi Tamamla</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+
+    function increase() {
+        debugger;
+        var s = document.getElementById('sayi');
+        if (s.value == 3) {
+            alert("Çok zenginsin galiba")
+        }
+        else {
+            s.value++;
+        }
+    }
+
+    function decrease() {
+        var s1 = document.getElementById('sayi');
+        if (s1.value == 1) {
+            alert("Sipariş sayısı sıfırdan büyük olmalı");
+        }
+        else {
+            s1.value--;
+        }
+    }
+    function increase1() {
+        debugger;
+        var s = document.getElementById('sayi1');
+        if (s.value == 3) {
+            alert("Çok zenginsin galiba")
+        }
+        else {
+            s.value++;
+        }
+    }
+
+    function decrease1() {
+        var s1 = document.getElementById('sayi1');
+        if (s1.value == 1) {
+            alert("Sipariş sayısı sıfırdan büyük olmalı");
+        }
+        else {
+            s1.value--;
+        }
+    }
+    function increase2() {
+        debugger;
+        var s = document.getElementById('sayi2');
+        if (s.value == 3) {
+            alert("Çok zenginsin galiba")
+        }
+        else {
+            s.value++;
+        }
+    }
+
+    function decrease2() {
+        var s1 = document.getElementById('sayi2');
+        if (s1.value == 1) {
+            alert("Sipariş sayısı sıfırdan büyük olmalı");
+        }
+        else {
+            s1.value--;
+        }
+    }
+</script>
+

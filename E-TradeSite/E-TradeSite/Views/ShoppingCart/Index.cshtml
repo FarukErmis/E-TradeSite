@@ -1,0 +1,231 @@
+﻿@using E_Trade.Model.Entity;
+@model IEnumerable<Product>
+@{
+    ViewBag.Title = "Index";
+}
+
+@Styles.Render("~/CSS/ShoppingCart.css")
+
+<div class="container-fluid ml-lg-5 mt-lg-5 mb-lg-5">
+    <div class="row ml-lg-5 mr-lg-5">
+        <div class="col-lg-8 mr-5 hat-cek throw-product">
+            <div class="row alt-hat">
+                <h3 class="ml-lg-5 mb-lg-4 mt-3">Sepetim<span class="bi bi-arrow-down-short ml-2"></span> <small class="ml-3">0 Ürün</small></h3>
+            </div>
+        </div>
+        <div class="col-lg-3 ">
+            <div class="hat-cek">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <h4 class="mt-4 ml-3" style="color:#808080">Ödenecek Tutar</h4>
+                        <h4 class="text-center price mt-4 trullyPrice">0.00 TL</h4>
+                    </div>
+                </div>
+                <div class="row  mt-3 total-price">
+                    <h6 class="float-left ml-lg-3 reserve-place-3">Toplam Tutar :</h6>
+                    <h6 class="float-left reserve-place-4 totalPrice">0.00 TL</h6>
+                </div>
+                <div class="row  mt-3 discount-price">
+                    <h6 class="float-left ml-lg-3 reserve-place-3">İndirim :</h6>
+                    <h6 class="float-left reserve-place-4 outDiscount">0.00 TL</h6>
+                </div>
+                <div class="row  mt-3 shipping-price">
+                    @*<h6 class="float-left ml-lg-3 reserve-place-3">Kargo :</h6>
+                    <h6 class="float-left reserve-place-4">0.00 TL</h6>*@
+                </div>
+                <div class="text-center mt-lg-3 alt-hat">
+                    <button type="button" class="btn btn-cart">Alışverişi Tamamla</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section Scripts{
+
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+
+            setTimeout(function () {
+                $.Cart.List();
+            }, 500);
+
+            $.Cart = {
+                List: function () {
+                    $.getJSON("@Url.Action("List","ShoppingCart")", function (data) {
+                        $(".hat-cek div.productList").remove();
+                        var count = Object.keys(data).length;
+                        var totalAmount = 0;
+                        var trullyAmount = 0;
+                        var OutDiscount = 0;
+                        var shippingDetail = "";
+                        if (count > 0) {
+
+                            $.each(data, function (key, item) {
+                                if (item.IsShippingFree == true) {
+                                    shippingDetail = "Kargo Bedava";
+                                }
+                                else {
+                                    shippingDetail = "Kargo Ücretli";
+                                }
+
+                                $(".throw-product").append(
+                                    '<div class="row mt-3 productList">' +
+                                    '<div class="col-lg-2 mr-2 ml-2">' +
+                                    '<a href="@Url.Action("Index","ProductDetail")/' + item.Id + '?name=' + item.ProductName + '">' +
+                                    '<img class="img-fluid" src="/Images/Product/' + item.Image + '" alt="' + item.ProductName + '">' +
+                                    '</a>' +
+                                    '</div>' +
+                                    '<div class="col-lg-7 mr-lg-3">' +
+                                    '<h6><a href="@Url.Action("Index","ProductDetail")/' + item.Id + '?name=' + item.ProductName + '" class="none-underline link-primary"><b>' + item.ProductName + '</b></a></h6> ' +
+                                    '<div class="row mt-3">' +
+                                    '<div class="col-lg-3">' +
+                                    '<p class="text-center"><a href="@Url.Action("Index","ProductList")' + item.BrandName + '" class="none-underline link-default">' + item.BrandName + '</a></p>' +
+                                    '</div>' +
+                                    '<div class="col-lg-5">' +
+                                    '<p class="text-capitalize" style="color:green;">' + shippingDetail + '</p>' +
+                                    '</div>' +
+                                    '</div>' +
+                                    '<div class="row">' +
+                                    '<div class="col-lg-5 ml-5 ">' +
+                                    '<h4 class="price">' + item.TrullyPrice + '</h4>' +
+                                    '</div>' +
+                                    '</div>' +
+                                    '</div>' +
+                                    '<div class="col-lg-2">' +
+                                    '<div class="row ">' +
+                                    '<div class="col-lg-4 ml-4 mt-5">' +
+                                    '<a href="#"><span class="bi bi-heart" data-toggle="Favori Listeme Ekle"><small class="wish-cart"></small></span></a>' +
+                                    '<a onclick="$.Cart.Remove(' + item.Id + ')"><span class="bi bi-trash" data-toggle="tooltip" title="Ürünü Sepetten Kaldır" data-placement="right"></span></a>' +
+                                    '</div>' +
+                                    '<div class="col-lg-2 mt-3 ml-lg-3">' +
+                                    '<button class="positive mb-lg-2 " onclick="$.Cart.Increase(' + item.Id + ')" style="color:forestgreen" data-toggle="tooltip" title="Miktarı Arttır" data-placement="right">+</button>' +
+                                    '<input type="number" value="' + item.Quantity + '" id="sayi" class="quantity " max="3" min="1" />' +
+                                    '<button class="positive mb-lg-2 mt-2" onclick="$.Cart.Decrease(' + item.Id + ')" style="color:red" data-toggle="tooltip" title="Miktarı Azalt" data-placement="right">-</button>' +
+                                    '</div>' +
+                                    '</div>' +
+                                    '</div>' +
+                                    '</div>'
+                                );
+                                trullyAmount += item.TrullyPrice * item.Quantity;
+                                if (item.TotalPrice == null)
+                                    totalAmount += item.TrullyPrice * item.Quantity;
+                                else
+                                    totalAmount += item.TotalPrice * item.Quantity;
+                            });
+                        }
+                        else {
+                            $(".throw-product").append(
+                                '<h1 style="text-align:center;">Sepetinizde ürün bulunmamaktadır.</h1>'
+                            )
+                        }
+                        $(".trullyPrice").html(trullyAmount.toFixed(3) + " " + "TL");
+                        $(".totalPrice").html(totalAmount.toFixed(3) + " " + "TL");
+                        $(".outDiscount").html((totalAmount - trullyAmount).toFixed(3) + " " + "TL");
+                        $("h3 small").html(count + " ürün");
+                        $('[data-toggle]="tooltip"]').tooltip();
+                    });
+                },
+                Increase: function (id) {
+                    $.ajax({
+                        type: "GET",
+                        dataType: "JSON",
+                        url: "@Url.Action("Add", "ShoppingCart")/" + id,
+                        success: function (result) {
+                            $.Cart.List();
+                        }
+                    });
+                },
+                Decrease: function (id) {
+                    $.ajax({
+                        type: "GET",
+                        dataType: "JSON",
+                        url: "@Url.Action("DecreaseCart", "ShoppingCart")/" + id,
+                        success: function (result) {
+                            $.Cart.List();
+                        }
+                    });
+                },
+                Remove: function (id) {
+                    $.ajax({
+                        type: "GET",
+                        dataType: "JSON",
+                        url: "@Url.Action("RemoveCart", "ShoppingCart")/" + id,
+                        success: function (result) {
+                            $.Cart.List();
+                        }
+                    });
+                },
+            }
+
+
+
+
+            //function increase() {
+            //    debugger;
+            //    var s = document.getElementById('sayi');
+            //    if (s.value == 3) {
+            //        alert("Çok zenginsin galiba")
+            //    }
+            //    else {
+            //        s.value++;
+            //    }
+            //}
+
+            //function decrease() {
+            //    var s1 = document.getElementById('sayi');
+            //    if (s1.value == 1) {
+            //        alert("Sipariş sayısı sıfırdan büyük olmalı");
+            //    }
+            //    else {
+            //        s1.value--;
+            //    }
+            //}
+            //function increase1() {
+            //    debugger;
+            //    var s = document.getElementById('sayi1');
+            //    if (s.value == 3) {
+            //        alert("Çok zenginsin galiba")
+            //    }
+            //    else {Urlr★ Actionction★ ActionActionActionAction Action Action Actionl
+            //        s.value++;
+            //    }
+            //}
+
+            //function decrease1() {
+            //    var s1 = document.getElementById('sayi1');
+            //    if (s1.value == 1) {
+            //        alert("Sipariş sayısı sıfırdan büyük olmalı");
+            //    }
+            //    else {
+            //        s1.value--;
+            //    }
+            //}
+            //function increase2() {
+            //    debugger;
+            //    var s = document.getElementById('sayi2');
+            //    if (s.value == 3) {
+            //        alert("Çok zenginsin galiba")
+            //    }
+            //    else {
+            //        s.value++;
+            //    }
+            //}
+
+            //function decrease2() {
+            //    var s1 = document.getElementById('sayi2');
+            //    if (s1.value == 1) {
+            //        alert("Sipariş sayısı sıfırdan büyük olmalı");
+            //    }
+            //    else {
+            //        s1.value--;
+            //    }
+            //}
+
+        });
+    </script>
+
+}
+
